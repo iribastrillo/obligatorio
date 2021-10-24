@@ -1,0 +1,386 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./src/js/utils.js"></script>
+    <script src="./src/js/profiles.js"></script>
+    <script src="./src/js/config.js"></script>
+    <script src="./src/js/controller.js"></script>
+    <script src="./src/js/view.js"></script>
+    <script src="./src/js/app.js"></script>
+    <script src="./src/js/main.js"></script>
+
+    <link rel="stylesheet" href="./src/css/master.css">
+
+    <title>Obligatorio</title>
+</head>
+<body>
+
+    <main id="app">
+
+        <div id="contenedor">
+
+            <div id="cabezal" class="clearfix">
+              <img id="logo" src="https://p1.develotion.com/2021_08/truck.png" alt="logo">
+              <ul id="navPrincipal">
+                <li id="app-event-admin-enable">
+                  <a>Empresas</a>
+                </li>
+                <li>
+                  <a>Vehiculos</a>
+                </li>
+                <li>
+                  <a>Usuarios</a>
+                </li>
+                <li>
+                  <a>Envíos</a>
+                </li>
+          
+              </ul>
+              <div id="aux">
+                <a>Menú alt. 1</a> | <a>Menú alt. 2</a>
+              </div><!-- FIN AUX -->
+            </div><!-- FIN CABEZAL -->
+
+
+            <div id="contenido">
+
+        <!--
+            INICIO: Fomulario de login.
+        -->
+
+        <div id="app-navbar" hidden>
+            <input id="app-event-logout" type="button" value="Salir">
+            <input id="app-event-back" type="button" value="Atrás">
+            <br>
+        </div>
+
+        <div id="app-login">
+            <h1 id="app-landing">¡Bienvenido!</h1>
+            <span class="app-error-message" id="app-login_errors"></span>
+            <br>
+            <label for="username">Ingresa tu nombre de usuario:</label>
+            <input type="text" id="username"> <br>
+            <br>
+            <label for="password">Ingresa tu contraseña:</label>
+            <input type="password" id="password"> <br>
+            <br>
+            <input id="app-event-login" type="button" value="Ingresar"> <br>
+            <br>
+            <input id="app-event-create-account" type="button" value="Registrarse"> <br>
+            <br>
+        </div>
+
+        <!--
+            FIN: Fomulario de login.
+        -->
+
+        <!--
+            INICIO: Fomulario de registro de usuario.
+        -->
+
+        <div id="app-signup">
+
+            <fieldset>
+
+                <label for="app-event-i-am">Yo soy: </label>
+                <br>
+
+                <select id="app-event-i-am">
+                    <option value="C">Empresa</option>
+                    <option value="P">Persona</option>
+                </select>
+                <br>
+                <h1 id="app-signup-message"></h1>
+                <br>
+
+
+                <div id="app-person-fields">
+                    <label for="first_name">Nombre:</label>
+                    <input type="text" id="first_name"> <br>
+                    <br>
+                    <label for="last_name">Apellido:</label>
+                    <input type="text" id="last_name"> <br>
+                    <br>
+                    <label for="ci">Cédula de identidad:</label>
+                    <input type="number" id="ci"> <br>
+                    <br>
+                </div>
+
+                <div id="app-company-fields">
+                    <label for="fantasy">Nombre de fantasía:</label>
+                    <input type="text" id="fantasy"> <br>
+                    <br>
+                    <label for="social">Razón Social:</label>
+                    <input type="text" id="social"> <br>
+                    <br>
+                    <label for="rut">RUT:</label>
+                    <input type="number" id="rut"> <br>
+                    <br>
+                </div>
+
+                <div>
+                    <label for="new-username">Usuario:</label>
+                    <input type="text" id="new-username"> <br>
+                    <br>
+                    <p>La contraseña deberá tener al menos seis caracteres, una mayúscula, una minúsculas y un número.</p>
+                    <br>
+                    <label for="new-password">Contraseña:</label>
+                    <input type="password" id="new-password"> <br>
+                    <br>
+                    <label for="new-password-confirm">Repetir Contraseña:</label>
+                    <input type="password" id="new-password-confirm"> <br>
+                    <br>
+                </div>
+                
+                    <input type="button" id="app-event-user-signup" value="Registrarse">
+
+            </fieldset>
+
+        </div>
+
+        <!--
+            FIN: Fomulario de registro de empresa.
+        -->
+        <div id='app-enable' hidden>
+            <h3>Contenido</h3>
+              <label for="txtPrueba">Campo:</label>
+              <input type="text" id="txtPrueba"><br>
+              <label for="txtComentarios">Campo:</label>
+              <textarea></textarea><br>
+              <input type="button" value="Algo"><br>
+              <hr>
+        </div>
+
+        <!--
+            INICIO: formulario de agregar vehículo.
+        -->
+        
+        <div id="app-admin_add_vehicle">
+            <fieldset style="width: 300px;">
+                <legend>Ingrese su vehículo</legend>
+                <br>
+                <input type="text" id="vehicle">
+                <br>
+                <br>
+                <input type="button" value="Cargar" id='app-event-add-vehicle'>
+                <br>
+                <br>
+                <p>Los Vehiculos ya cargados en el sistema son:</p>
+                <ul id='app-list_vehicles'>
+
+                </ul>
+            </fieldset>
+        </div>
+
+        <!--
+            FIN: formulario de agregar vehículo.
+        -->
+
+              <div class="interior" id="app-admin-enable-company" hidden>
+                <div>
+                  <h2>Contenido 1</h2>
+                  <img src="https://p1.develotion.com/2021_08/paq1.png">
+                  <p>Donec dapibus arcu a diam commodo, vel vehicula orci volutpat. Vestibulum convallis tempor mattis. Donec molestie semper leo vel luctus. Curabitur quis nisi maximus, luctus lorem quis, dignissim augue.</p>
+                  <input type="button" value="Ejecutar acción">
+                </div>
+                <hr>
+                <div>
+                  <h2>Contenido 2</h2>
+                  <img src="https://p1.develotion.com/2021_08/paq2.png">
+                  <p>Donec dapibus arcu a diam commodo, vel vehicula orci volutpat. Vestibulum convallis tempor mattis. Donec molestie semper leo vel luctus. Curabitur quis nisi maximus, luctus lorem quis, dignissim augue.</p>
+                  <input type="button" value="Ejecutar acción">
+                </div>
+              </div>
+              
+                <!--FIN EJERCICIOS-->
+              </div><!-- FIN CONTENIDO -->
+              <div id="pie">
+                <a href="https://www.ort.edu.uy">Footer</a>
+              </div><!-- FIN PIE -->
+            </div><!-- FIN CONTENEDOR -->
+
+<!--
+  INICIO: INTERFACES DEL DOCUMENTO DE ANÁLISIS
+-->
+
+
+        
+<!--
+   IDEAS: Deshabilitar botón crear hasta que se rellenen todos los campos.
+-->
+
+        <!--
+            INICIO: Panel de administrador.
+        -->
+
+        <div id="app-content" >
+
+            <h1 id="app-welcome"></h1>
+
+            <div id="app-admin_panel">
+                <p>Panel de administrador.</p>
+                <input type="button" value="Habilitación" id="">
+            </div>
+
+            <div id="app-admin_panel">
+                <p>Panel de usuario.</p>
+            </div>
+
+            <div id="app-admin_panel">
+                <p>Panel de empresa.</p>
+            </div>
+
+            <div id="app-statistics">
+                <p>Estadísticas del administrador:</p> <span id="app-admin_progress_bar"></span>
+            </div>
+
+        </div>
+
+        <!--
+            FIN: Panel de administrador.
+        -->
+
+<!-- ########################################################################################## -->
+
+        <!--
+            INICIO: Estadísticas de Administrador.
+        -->
+
+        <br>
+        <br>
+        <div id="app-admin_statistics" hidden>
+            <fieldset style="width: 300px;">
+                <legend>Estadísticas</legend>
+                <br>
+                <label for="select">Seleccione una empresa</label>
+                <Select id="select">
+                    <option value="Empresa1">Empresa 1</option>
+                </Select>
+                <br>
+                <p>Empresa 1 = Ha recorrido 60.000 Km</p>
+                <br>
+            </fieldset>
+        </div>
+
+        <!--
+            FIN: Estadísticas de Administrador.
+        -->
+
+<!-- ########################################################################################## -->
+
+        <br>
+        <br>
+
+        <!--
+            INICIO: Estadísticas de Empresa.
+        -->
+
+        <div id="app-company_statistics" hidden>
+            <fieldset style="width: 300px;">
+                <legend>Estadísticas</legend>
+                <br>
+                <label for="select">Seleccione un estado de envío</label>
+                <Select id="select">
+                    <option value="Empresa1">En tránsito</option>
+                </Select>
+                <br>
+                <p>Tiene 5 envíos en tránsito</p>
+                <br>
+                <p>Los usuarios a los que ha realizado más envíos finalizados son:
+                   <br>
+                   <br>
+                    juanperez1 <br>
+                    marianoel25 <br>
+                    carlos7rodriguez <br>
+                </p>
+            </fieldset>
+        </div>
+
+        <!--
+            FIN: Estadísticas de Empresa.
+        -->
+
+<!-- ########################################################################################## -->
+
+        <br>
+        <br>
+
+        <!--
+            INICIO: Estadísticas de Persona.
+        -->
+
+        <div id="app-person_statistics" hidden>
+            <fieldset style="width: 300px;">
+                <legend>Estadísticas</legend>
+                <br>
+                <label for="select">Seleccione una empresa</label>
+                <Select id="select">
+                    <option value="Empresa1">Empresa 3</option>
+                </Select>
+                <br>
+                <p>Empresa 3 = Ha realizado el 22% de los envíos</p>
+                <br>
+                </p>
+                <br>
+                <label for="select">Seleccione un estado de envío</label>
+                <Select id="select">
+                    <option value="Empresa1">Finalizados</option>
+                <br>
+                </Select>
+                <p>Tiene 17 envíos Finalizados</p>
+                <br>
+            </fieldset>
+        </div>
+
+        <!--
+            FIN: Estadísticas de Persona.
+        -->
+
+<!-- ########################################################################################## -->
+
+        
+
+<!-- ########################################################################################## -->
+
+        <!--
+            INICIO: formulario de habilitación.
+        -->
+
+        <div id="app-admin_enabling" hidden>
+            <fieldset style="width: 500px;">
+            <legend>Habilite o desabilite</legend>
+            <br>
+            <label for="Buscar">Empresa (Razón Social / Nombre de fantasía):</label><br>
+            <input type="text" name="Buscarempresa" id="Buscarempresa"><br>
+            <button>Buscar</button>
+            <ul>
+                <li>RUT 1561231, CIV S.A., COIGVI - </li>
+                <button>Habilitar</button> <button>Deshabilitar</button>
+                <br>
+                <p>*Habilitada*</p>
+                <br>
+                <li>RUT 3135546, Cimientos S.A., Hormigones del País - *No Habilitada*</li>
+                <button>Habilitar</button> <button>Deshabilitar</button>
+                <br>
+                <p>*No Habilitada*</p>
+            </ul>
+            </fieldset>
+        </div>
+
+        <!--
+            FIN: formulario de agregar vehículo.
+        -->
+
+<!-- ########################################################################################## -->
+
+<!--
+  FIN: INTERFACES DEL DOCUMENTO DE ANÁLISIS
+-->
+
+    </main>
+
+</body>
+
+</html>
