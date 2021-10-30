@@ -22,6 +22,20 @@ class Company {
         this.social = social;  
         this.username = username;
         this.password = password;
+        this.enabled = true;
+    }
+}
+
+class Package {
+    constructor (id, vehicle, distance, description, image, company, person) {
+        this.id = id;
+        this.vehicle = vehicle;
+        this.distance = distance;
+        this.description = description;
+        this.image = image;
+        this.company = company;
+        this.person = person;
+        this.status = PACKAGE_STATUS.PENDING;
     }
 }
 
@@ -49,5 +63,18 @@ function create_person (data) {
         data.ci,
         data.username,
         data.password,
+    )
+}
+
+function create_package (data) {
+    ID++
+    return new Package (
+        ID,
+        data.vehicle,
+        data.distance,
+        data.description,
+        data.image,
+        data.company,
+        data.person
     )
 }

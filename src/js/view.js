@@ -74,18 +74,14 @@ class View {
 
 const IDS = [
     'admin_enabling',
-    'admin_panel',
     'admin_add_vehicle',
-    'content',
     'list_vehicles', 
     'login',
     'login_errors',
-    'navbar', 
     'signup',
     'signup_person',
     'statistics', 
-    'welcome',
-    'app-enable'
+    'see_more'
 ];
 
 ///////////////////////////////////////////////////////////////
@@ -98,51 +94,23 @@ const IDS = [
     sistema. De ese modo en el paso app.update() que se ejecuta después de 
     un app.dispatch(...) el documento HTML reacciona al nuevo estado interno.
 */
-function view_enable () {
-    app.views.enable.display_in (app.state.enabling);
-}
 
 function view_login () {
     app.views.login.display_in (app.state.login);
 }
 
-function view_content () {
-    if (app.session_user) {
-        app.views.welcome.update_content (`${MESSAGES.WELCOME}, ${app.session_user.username}`);
-    }
-    app.views.content.display_in (app.logged_in);
-}
-
-function view_navbar () {
-    if (app.state.signup) {
-        hide (get_element('event-logout'));
-    } else {
-        display (get_element('event-logout'));
-    }
-    app.views.navbar.display_in (app.logged_in || app.state.signup);
-}
-
-function view_admin_panel () {
-    app.views.statistics.display_in (app.logged_in && true);
-    app.views.admin_panel.display_in (app.logged_in && true);
-}
-
-function view_signup () {
+function view_create_account () {
     let signup_user_type = get_element ('event-i-am').value;
-    if (app.state.signup && signup_user_type == 'P') {
+    if (app.state.create_account && signup_user_type == 'P') {
         display (get_element('person-fields'));
         hide (get_element ('company-fields'));
         inject (get_element('signup-message'), MESSAGES.SIGNUP_USER, 'span');
-    } else if (app.state.signup && signup_user_type == 'C') {
+    } else if (app.state.create_account && signup_user_type == 'C') {
         display (get_element('company-fields'));
         hide (get_element ('person-fields'));
         inject (get_element('signup-message'), MESSAGES.SIGNUP_COMPANY, 'span');
     }
-    app.views.signup.display_in (app.state.signup);
-}
-
-function view_admin_enabling () {
-    app.views.admin_enabling.display_in (app.state.enabling);
+    app.views.signup.display_in (app.state.create_account);
 }
 
 function view_list_vehicles () {
@@ -156,9 +124,58 @@ function view_list_vehicles () {
 }
 
 function view_admin_add_vehicle () {
-    app.views.admin_add_vehicle.display_in (app.state.logged_in);
+    let that_state = app.logged_in && app.state.add_vehicle; 
+    app.views.admin_add_vehicle.display_in (that_state);
 }
 
+function view_see_more () {
+    app.views.see_more.display_in (app.state.see_more)
+}
+
+function view_panel () {
+    if (app.logged_in) {
+        if (is_admin (app.session_user)) {
+           display (get_element('admin-panel'))
+           hide (get_element ('company-panel'))
+           hide (get_element ('person-panel'))
+        } else if (is_person(app.session_user)) {
+            display (get_element('person-panel'))
+            hide (get_element ('company-panel'))
+            hide (get_element ('admin-panel'))
+        } else if (is_company(app.session_user)) {
+            display (get_element('company-panel'))
+            hide (get_element ('admin-panel'))
+            hide (get_element ('person-panel'))
+        }
+    } else {
+        hide (get_element ('admin-panel'))
+        hide (get_element ('person-panel'))
+        hide (get_element ('company-panel'))
+    }
+
+}
+
+function view_admin_enabling () {
+    let that_state = app.state.enable_company && app.logged_in; 
+    if (that_state) {
+        let rows = '';
+        let query = fetch_data ('search');
+        let data = [];
+        // Hay que implementar la funcionalidad de buscar
+        for (let user of DB.users) {
+            if (is_company(user)) {
+                let data = '';
+                data += createHTML (user.rut, 'td');
+                data += createHTML (user.social, 'td');
+                data += createHTML (user.fantasy, 'td');
+                data += createHTML (user.enabled ? 'Habilitada' : 'Deshabilitada', 'td');
+                rows += createHTML (data, 'tr');
+            }
+        }
+        inject (get_element('company-list'), rows);
+    }
+    app.views.admin_enabling.display_in (that_state)
+}
 ///////////////////////////////////////////////////////////////
 
 /*
@@ -167,13 +184,12 @@ function view_admin_add_vehicle () {
 
 const VIEWS = [
     view_login,
-    view_content,
-    view_navbar,
-    view_admin_panel,
     view_admin_add_vehicle,
-    view_signup,
+    view_create_account,
+    view_list_vehicles,
+    view_see_more,
     view_admin_enabling,
-    view_list_vehicles
+    view_panel
 ]
 
 ///////////////////////////////////////////////////////////////
@@ -196,11 +212,11 @@ function handle_user_login () {
         username: fetch_data('username'),
         password: fetch_data ('password')
     }
-    app.dispatch (USER_LOGIN, data);
+    app.dispatch (TRIGGERS.USER_LOGIN, data);
 }
 
 function handle_logout () {
-    app.dispatch (USER_LOGOUT);
+    app.dispatch (TRIGGERS.USER_LOGOUT);
 }
 
 function handle_user_signup () {
@@ -216,42 +232,68 @@ function handle_user_signup () {
             data.fantasy = fetch_data ('fantasy');
             data.social = fetch_data ('social');
             data.rut = fetch_data ('rut'); 
-            app.dispatch (USER_SIGNUP, {user_type: user_type, new_user: create_company(data)} );
+            app.dispatch (
+                TRIGGERS.USER_SIGNUP,
+                {user_type: user_type, new_user: create_company(data)} );
             break;
         case "P":
             data.first_name = fetch_data ('first_name');
             data.last_name = fetch_data ('last_name');
             data.ci = fetch_data ('ci');
-            app.dispatch (USER_SIGNUP, {user_type: user_type, new_user: create_person(data)});
+            app.dispatch (
+                TRIGGERS.USER_SIGNUP,
+                {user_type: user_type, new_user: create_person(data)});
             break;
     }
 }
 
-function handle_user_statistics () {
-    alert ('Function statistics');
-}
-
-function handle_create_account () {
-    app.dispatch (CREATE_ACCOUNT);
-}
-
 function handle_back () {
-    app.dispatch (BACK_TO_PREVIOUS);
+    app.dispatch (TRIGGERS.BACK_TO_PREVIOUS);
 }
 
 function handle_add_vehicle () {
     let  data = {
         vehicle: fetch_data ('vehicle')
     }
-    app.dispatch (ADD_VEHICLE, data);
+    app.dispatch (TRIGGERS.ADD_VEHICLE, data);
 }
+
 function handle_take_order () {
     
 }
 
 function handle_i_am_select_change () {
-    app.dispatch (CREATE_ACCOUNT);
-}   
+    app.dispatch (TRIGGERS.CREATE_ACCOUNT);
+}
+
+//////////////////////////////////////////////////////////////
+/*
+    Transición entre pantallas.
+*/
+
+function handle_see_statistics () {
+    app.transition(TRIGGERS.MANAGE_TRANSITION, TRIGGERS.SEE_STATISTICS)
+}
+
+function handle_to_add_vehicle () {
+    app.transition(TRIGGERS.MANAGE_TRANSITION, TRIGGERS.ADD_VEHICLE)
+}
+
+function handle_see_more () {
+    app.transition (TRIGGERS.MANAGE_TRANSITION, TRIGGERS.SEE_MORE);
+}
+
+function handle_to_enable_company () {
+    app.transition(TRIGGERS.MANAGE_TRANSITION, TRIGGERS.ENABLE_COMPANY)
+}
+
+function handle_create_account () {
+    app.transition (TRIGGERS.MANAGE_TRANSITION, TRIGGERS.CREATE_ACCOUNT);
+}
+
+function handle_back () {
+    app.transition (TRIGGERS.BACK_TO_PREVIOUS, app.previous);
+}
 
 ///////////////////////////////////////////////////////////////
 
@@ -266,7 +308,10 @@ const HANLDERS = {
         'event-logout': handle_logout,
         'event-create-account': handle_create_account,
         'event-user-signup': handle_user_signup,
-        'event-add-vehicle': handle_add_vehicle
+        'event-add-vehicle': handle_add_vehicle,
+        'event-see-more': handle_see_more,
+        'event-to-add-vehicle': handle_to_add_vehicle,
+        'event-to-enable-company': handle_to_enable_company
     },
     change: {
         'event-i-am': handle_i_am_select_change

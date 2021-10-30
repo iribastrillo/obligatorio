@@ -1,16 +1,49 @@
 @charset "utf-8";
-/* CSS Document */
-
 @import url("https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap");
 
-
-.app-error-message {
-  color: #FC5130;
-  font-weight: bold;
+:root {
+  --primary-color: rgb(255, 251, 197);
+  --secondary-color: rgb(168, 217, 255);
+  --enable-color: rgb(125, 255, 158);
+  --disable-color: rgb(255, 125, 125);
+  --text-color: rgb(68, 68, 68);
 }
 
-#app-login {
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+fieldset {
+  border: none;
+  border-top: 2px solid var(--primary-color);
+  padding: 0px;
+}
+
+legend {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 120%;
+}
+
+table {
+  width: 100%;
+  color: var(--text-color);
+  background-color: var(--primary-color);
+  padding: 1rem;
+  border: 1px solid black;
+}
+
+td {
+  font-size: 75%;
+  padding: 0.1rem;
   text-align: center;
+}
+
+.password-helper {
+  width: 60%;
+  margin: auto;
 }
 
 .clearfix:after {
@@ -25,7 +58,6 @@
 .clearfix {
   display: inline-block;
 }
-/* start commented backslash hack \*/
 
 * html .clearfix {
   height: 1%;
@@ -34,11 +66,10 @@
 .clearfix {
   display: block;
 }
-/* close commented backslash hack */
 
 body {
   font-family: "Jost", sans-serif;
-  background-color: rgb(241, 247, 253);
+  background-color: var(--secondary-color);
 } 
 
 h1,
@@ -47,11 +78,7 @@ h3,
 h5,
 h6 {
   font-family: "Jost", sans-serif;
-}
-
-h2{
-  width:60%;
-  float:left;
+  color: var(--primary-color);
 }
 
 h4{
@@ -62,8 +89,16 @@ h4{
   text-align:right;
 }
 
+hr {
+  margin: 1rem;
+}
+
+p {
+  text-align: justify;
+  color: #fff;
+}
+
 #contenedor {
-  width: 80%;
   background-color: #fff;
   margin: 0 auto;
 }
@@ -73,6 +108,9 @@ label{
   text-align:left;
   display:inline-block;
   vertical-align:top;
+  width: 60%;
+  font-weight: bold;
+  color: var(--primary-color);
 }
 
 .duracion{
@@ -102,16 +140,16 @@ p.ver-mas {
 }
 
 #navPrincipal a {
-  color: #000;
+  color: var(--text-color);
   cursor: pointer;
   font-size: 14px;
 }
 
 #aux a {
-  text-decoration: underline;
+  text-decoration: none;
+  font-weight: bold;
   cursor: pointer;
-  color: #000;
-  text-decoration: underline;
+  color: var(--text-color);
   font-size: 14px;
 }
 
@@ -127,15 +165,15 @@ p.ver-mas {
   list-style-type: none;
   padding: 10px;
   background-color: #fff;
-  border: 1px solid black;
+  border: 1px solid var(--text-color);
   margin: 5px;
   float: left;  
 }
 
 #cabezal {
-  background-color: rgb(241, 218, 191);
-  border: 1px solid black;
-  margin-bottom: 1rem;
+  background-color: var(--primary-color);
+  border-bottom: 2px solid black;
+  height: fit-content;
 }
 
 #cabezal img {
@@ -147,12 +185,11 @@ p.ver-mas {
 
 #contenido {
   /*background-color: #DFDFDF;*/
-  width: 94%;
-  background-color: rgb(223, 241, 255);
+  width: auto;
+  background-color: var(--secondary-color);
   padding: 20px;
-  float: left;
-  border: 1px solid black;
-  margin-bottom: 1rem;
+  box-shadow: 2px 2px 0px rgb(255, 252, 205);
+  border-bottom: 2px solid black;
 }
 
 #contenido img{
@@ -173,37 +210,117 @@ p.ver-mas {
 }
 
 #pie {
-  background-color: rgb(241, 218, 191);
+  background-color: var(--secondary-color);
   clear: both;
-  padding: 20px;
+  height: 10vh;
+  padding: 15px;
   color: #fff;
   font-size: 12px;
-  border: 1px solid black;
 }
 
 input,
 select, textarea {
-  background-color: #fff;
-  color: #000;
-  border: 1px solid black;
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
   padding: 5px 10px;
   font-family: "Jost", sans-serif;
-  width: 30%;
+  width: 60%;
   min-width: 200px;
   font-size:14px;
+  transition: all 0.2s ease-in-out;
+}
+
+input:hover, select:hover, textarea:hover {
+  background-color: var(--primary-color);
+  box-shadow: 2px 2px 0px rgb(255, 252, 205);
 }
 
 input[type="button"] {
+  width: 30%;
   background-color: #fff;
-  color: #000;
+  color: var(--text-color);
   font-weight:bold;
+  margin-bottom: 0.5rem;
 }
 
 input[type='button']:hover {
-  background-color: rgb(241, 218, 191);
+  background-color: var(--primary-color);
+  box-shadow: 2px 2px 0px rgb(255, 252, 205);
 }
 
 #pie a {
   text-decoration: none;
   color: #fff;
 }
+
+.submit {
+  text-align: center;
+}
+
+li {
+  list-style-type: none;
+  list-style-position: outside;
+  color: var(--text-color);
+  font-weight: bold;
+  background-color: var(--primary-color);
+  width: auto;
+  padding: 0.5rem;
+  margin: 8px 0px 8px 0px;
+  border: 1px solid black;
+}
+
+.app-error-message {
+  color: #FC5130;
+  font-weight: bold;
+}
+
+#app-login {
+  text-align: center;
+}
+
+#app-signup {
+  text-align: center;
+}
+
+/*
+
+######################################################################
+
+ */
+
+.app-card {
+  margin: auto;
+  width: 60%;
+  height: 200px;
+  border: 1px solid var(--text-color);
+  background-color: var(--primary-color);
+  box-shadow: 2px 2px 0px rgb(255, 252, 205);
+}
+
+.app-btn-enable {
+  background-color: #fff;
+}
+
+.app-btn-enable:hover {
+  background-color: var(--enable-color);
+}
+
+.enabled {
+  color: var(--enable-color);
+  font-weight: bolder;
+}
+
+.disabled {
+  color: var(--disable-color);
+  font-weight: bolder;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+/*
+
+######################################################################
+
+ */

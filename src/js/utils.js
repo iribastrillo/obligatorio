@@ -63,6 +63,26 @@ function is_user (user) {
     return is_user;
 }
 
+function is_admin (user) {
+    return user instanceof Admin;
+}
+
+function is_person (user) {
+    return user instanceof Person;
+}
+
+function is_company (user) {
+    return user instanceof Company;
+}
+
+function get_user (user) {
+    let u = null;
+    for (let point of DB.users) {
+        if (point.username === user.username) u = point;
+    }
+    return u;
+}
+
 function validate_ci (ci) {
     /*
         Toma un número de cédula y devuelve true en caso que sea 
@@ -159,3 +179,27 @@ Contraseña: se deben ingresar un mínimo de seis caracteres, con al menos una m
 
 ///////////////////////////////////////////////////////////////
 
+// Para filtrar por términos de busqueda en la pantalla de habilitar/dehabilitar
+function lookup (query, on) {
+
+}
+
+function calculate_package_completion (user) {
+    /*
+        Función que calcula el porcentaje de paquetes que han sido
+        tomados por ese usuario.
+
+        f(user) -> Number
+    */
+   let in_process_or_finished = 0;
+   let total = 0;
+   for (let package of DB.packages) {
+        if (package.person === user) {
+            total++;
+            if (package.status === PACKAGE_STATUS.IN_PROCESS || package.status === PACKAGE_STATUS.FINISHED) {
+                in_process_or_finished++
+            }
+        } 
+   }
+   return (in_process_or_finished/total)*100;
+}

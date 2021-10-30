@@ -225,6 +225,10 @@ class App {
         console.log (this.current); 
         console.log ('###############################');
     }
+
+    transition (e, route) {
+        this.dispatch (e, route);
+    }
 }
 
 ///////////////////////////////////////////////////////////////

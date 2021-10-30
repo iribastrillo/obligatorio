@@ -15,12 +15,12 @@ function controller_login (data) {
         "logged in". En caso contrario, manda un error.
     */
     if (is_user (data)) { 
-        app.session_user = data;
+        app.session_user = get_user(data);
         app.logged_in = true;
         let welcome = `Bienvenido, ${app.session_user.username}`
         clearHTML (get_element('login_errors'));
-        app.set_state ('logged_in');
         alert (welcome);
+        app.set_state('landing');
     } else {
         data.errors = {
             'login_errors': ERRORS.WRONG_USERNAME_OR_PASSWORD
@@ -35,7 +35,7 @@ function controller_logout () {
         cambia el estado a "logged_in". En caso contrario, manda un error.
     */
     if (app.session_user) {
-        alert (`Vuelve pronto, ${app.session_user.username}!`);
+        alert (`¡Vuelve pronto, ${app.session_user.username}!`);
         app.session_user = null;
         app.logged_in = false;
         app.set_state ('login');
@@ -71,11 +71,12 @@ function controller_create_account (data) {
         Controla la vista para crear un perfil nuevo dentro del sistema.
     */
     clearHTML (get_element('login_errors')); // Esto debería salir de acá
-    app.set_state ('signup');
+    app.set_state ('create_account');
 }
 
 function controller_back_to_previous () {
-    if ((is_logged_in (app.session_user) && app.previous != 'login') || app.state.signup) {
+    let that_state = (app.logged_in && app.previous != 'login') || app.state.create_account || app.state.see_more;
+    if (that_state) {
         app.set_state (app.previous);
     }
 }
@@ -107,8 +108,25 @@ function controller_display_errors (errors) {
 
 
 function controller_admin_enable_company () {
-    app.set_state (app.state.enabling);
+    //app.set_state (app.state.enabling);
 }
+
+//// ENRUTADOR
+
+function controller_route (route) {
+    if (ROUTES.admin_only.includes(route)) {
+        if (is_admin(app.session_user)) {
+            app.set_state (route)
+        }
+    } else if (ROUTES.company_only.includes(route)) {
+        /// bla bla
+    } else if (ROUTES.person_only.includes (route)){
+        /// bla bla bla
+    } else if (ROUTES.unrestricted.includes(route)) {
+        app.set_state (route)
+    }
+}
+
 ///////////////////////////////////////////////////////////////
 
 // Cambiar de estado cuando se toman pedidos
@@ -118,6 +136,11 @@ function controller_admin_enable_company () {
 */
 
 const CONTROLLERS = {
+    ////////////////////////////////////////////////
+
+    'transition' : [(route) => controller_route (route)],
+
+    ////////////////////////////////////////////////
     'user_login': [
         (data) => controller_login (data), 
         (data) => controller_login_success_or_fail(data)],
@@ -127,7 +150,7 @@ const CONTROLLERS = {
     'user_signup': [(data) => controller_signup(data)],
     'create_account': [() => controller_create_account()],
     'add_vehicle': [(data) => controller_add_vehicle(data)],
-    'admin_enable_company' : [() => controller_admin_enable_company()]
+    'admin_enable_company' : [() => controller_admin_enable_company()],
 }
 
 ///////////////////////////////////////////////////////////////
